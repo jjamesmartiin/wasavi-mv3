@@ -1,0 +1,397 @@
+/*
+ * styles for wasavi
+ *
+ * @author akahuku@gmail.com
+ *
+ * Copyright 2012-2016 akahuku, akahuku@gmail.com
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+#wasavi_container {
+}
+
+#wasavi_textwidth_guide {
+	display:none;
+	position:fixed;
+	box-sizing:border-box;
+	left:0; top:0; width:32px;
+	padding:4px 0 0 4px;
+	border-left:1px solid silver;
+	font-size:xx-small;
+	font-style:italic;
+	color:silver;
+}
+
+#wasavi_cursor_line {
+	position:fixed;
+	left:0;
+	right:0;
+	height:32px;
+	border-top:1px solid silver;
+}
+
+#wasavi_cursor_column {
+	position:fixed;
+	top:0;
+	bottom:0;
+	width:32px;
+	border-left:1px solid silver;
+}
+
+#wasavi_singleline_scaler {
+	position:fixed;
+	margin:0;
+	padding:0;
+	/*<FONT_STYLE/>*/
+	text-decoration:none;
+	text-shadow:none;
+	white-space:pre;
+	color:#fff;
+	background-color:#000;
+	left:0px;
+	top:0px;
+	visibility:hidden;
+}
+
+/*
+ * editor screen
+ */
+
+#wasavi_editor {
+	position:fixed;
+	left:0; top:0; right:0; bottom:0;
+	margin:0;
+	padding:0;
+	border:none;
+	/*<FONT_STYLE/>*/
+	overflow-x:hidden;
+	overflow-y:scroll;
+	counter-reset:na 0 nr 0;
+}
+
+#wasavi_editor > div {
+	margin:0;
+	padding:0;
+	min-height:/*<LINE_HEIGHT>*/1px/*</LINE_HEIGHT>*/;
+	line-height:1.2;
+	white-space:pre-wrap;
+	word-wrap:break-word;
+	counter-increment:na nr -1;
+}
+
+#wasavi_editor.list > div:not([contenteditable])::after {
+	content:"\21b2";
+	font-size:50%;
+	color:#888;
+}
+
+#wasavi_editor > span.newline {
+	display:none;
+}
+
+#wasavi_editor > div.current ~ div {
+	counter-increment:na nr 1;
+}
+
+#wasavi_editor > div:nth-child(4n+3) {
+}
+
+#wasavi_editor > div.current {
+}
+
+#wasavi_editor > div:focus {
+	outline:none;
+}
+
+#wasavi_editor > div span.wasavi_em {
+}
+
+/*
+ * line number
+ */
+
+#wasavi_editor.na > div:before,
+#wasavi_editor.nr > div:before,
+#wasavi_editor.nar > div:before {
+	display:block;
+	float:left;
+	margin:0;
+	padding:1px /*<CHAR_WIDTH>*/1px/*</CHAR_WIDTH>*/ 0 0;
+	text-align:right;
+	white-space:nowrap;
+	/*<FONT_STYLE/>*/
+}
+
+#wasavi_editor.na > div:before {
+	content:counter(na);
+}
+
+#wasavi_editor.nar > div.current:before {
+	content:counter(na);
+	text-align:left;
+}
+
+#wasavi_editor.nr > div:before,
+#wasavi_editor.nar > div:before {
+	content:counter(nr);
+}
+
+/*<LINE_NUMBERS/>*/
+
+/*
+ * status line
+ */
+
+#wasavi_footer {
+}
+
+/* status line container */
+#wasavi_footer_status_container {
+	position:fixed;
+	display:flex;
+	left:0; right:0; bottom:0;
+	padding:2px;
+	box-sizing:border-box;
+	align-items:stretch;
+	flex-direction:row;
+	line-height:1.2;
+	font-size:10pt;
+	font-family:/*<FONT_FAMILY>*/monospace/*</FONT_FAMILY>*/;
+}
+
+/* status message indicator */
+#wasavi_footer_file_indicator {
+	white-space:nowrap;
+	font-weight:bold;
+}
+
+#wasavi_footer_status_container > #wasavi_footer_file_indicator {
+	flex-grow:1;
+	overflow:hidden;
+}
+
+#wasavi_footer_status_container > marquee {
+	flex-grow:1;
+	margin:0;
+	padding:0;
+}
+
+/* prefix input indicator */
+#wasavi_footer_prefix_indicator {
+	flex-grow:1;
+	padding:0 0 0 8px;
+	text-align:right;
+	white-space:pre;
+}
+
+/* line input */
+#wasavi_footer_input_container {
+	position:fixed;
+	display:flex;
+	left:0; right:0; bottom:0;
+	padding:2px;
+	box-sizing:border-box;
+	align-items:stretch;
+	flex-direction:row;
+	line-height:1.2;
+	font-size:10pt;
+	font-family:/*<FONT_FAMILY>*/monospace/*</FONT_FAMILY>*/;
+}
+
+#wasavi_footer_input_indicator {
+	background-color:rgba(0,0,0,0.5);
+	padding:0 0 0 2px;
+	color:#fff;
+}
+
+#wasavi_footer_input {
+	flex-grow:1;
+	margin:0;
+	padding:0;
+	border:none;
+	outline:none;
+	background-color:rgba(0,0,0,0.5);
+	color:#fff;
+	line-height:1.2;
+	font-family:/*<FONT_FAMILY>*/monospace/*</FONT_FAMILY>*/;
+	font-size:10pt;
+	ime-mode:inactive;
+}
+
+#wasavi_footer_notifier {
+	visibility:hidden;
+	position:fixed;
+	left:8px;
+	padding:4px;
+	background-color:rgba(0,0,0,0.75);
+	color:#fff;
+	border-radius:3px;
+	font-size:8pt;
+	text-shadow:1px 1px #000;
+}
+
+/*
+ * console
+ */
+
+@keyframes blink { 25% {opacity:0} 75% {opacity:1} }
+.blink {
+	animation:blink 1s step-end infinite;
+}
+
+#wasavi_console_scaler {
+	position:fixed;
+	padding:0;
+	border:none;
+	font-family:/*<FONT_FAMILY>*/monospace/*</FONT_FAMILY>*/;
+	font-size:10pt;
+	left:16px;
+	top:16px;
+	right:16px;
+	white-space:pre-wrap;
+	overflow-x:auto;
+	color:#fff;
+	background-color:#000;
+	line-height:1;
+	visibility:hidden;
+}
+
+#wasavi_console_container {
+	visibility:hidden;
+	position:fixed;
+	display:flex;
+	margin:0;
+	padding:6px;
+	left:8px; top:8px; right:8px; bottom:8px;
+	box-sizing:border-box;
+	border:none;
+	border-radius:8px;
+	flex-direction:row;
+	justify-content:center;
+	align-items:stretch;
+}
+
+#wasavi_console {
+	margin:0;
+	padding:0;
+	border:none;
+	outline:none;
+	background-color:transparent;
+	font-family:/*<FONT_FAMILY>*/monospace/*</FONT_FAMILY>*/;
+	font-size:10pt;
+	overflow-y:hidden;
+	white-space:pre-wrap;
+	resize:none;
+	line-height:1;
+	flex-grow:1;
+}
+
+#wasavi_console .special-key {
+	margin:0 3px 0 3px;
+	padding:0 1px 0 1px;
+	border-radius:3px;
+}
+
+/*
+ * overlay
+ */
+
+#wasavi_cover {
+	position:fixed;
+	display:flex;
+	left:0; top:0; right:0; bottom:0;
+	background-color:rgba(0,0,0,0.0);
+	flex-direction:row;
+	justify-content:center;
+	align-items:center;
+}
+
+#wasavi_cover.dim {
+	transition:background-color .5s linear 1s;
+	background-color:rgba(0,0,0,0.25);
+}
+
+@keyframes visualbell {
+	0%   { background-color:#f5511e }
+	100% { background-color:rgba(0,0,0,0.0) }
+}
+#wasavi_cover.visualbell {
+	animation:.5s visualbell 0s;
+}
+
+#wasavi_cover #wasavi_cover_button {
+	padding:4px;
+	color:#fff;
+	background-color:rgba(0,0,0,0.75);
+	border-radius:6px;
+	font-family:/*<FONT_FAMILY>*/monospace/*</FONT_FAMILY>*/;
+	font-size:10pt;
+	line-height:1;
+	text-shadow:1px 1px #000;
+	opacity:0;
+}
+
+#wasavi_cover.dim #wasavi_cover_button {
+	transition:opacity .5s linear 5s;
+	opacity:1;
+}
+
+/*
+ * focus holders
+ */
+
+#wasavi_command_cursor {
+	position:absolute;
+	margin:0;
+	padding:0;
+	/*<FONT_STYLE/>*/
+	text-decoration:none;
+	text-shadow:none;
+	left:0px;
+	top:0px;
+}
+
+#wasavi_command_cursor_inner {
+	margin:0;
+	padding:0;
+	white-space:pre;
+}
+
+#wasavi_focus_holder {
+	position:fixed;
+	border:none;
+	outline:none;
+	resize:none;
+	padding:0;
+	left:0;
+	top:-32px;
+	width:100%;
+	height:32px;
+	ime-mode:disabled;
+}
+
+#wasavi_fx_clip {
+	position:fixed;
+	border:none;
+	outline:none;
+	resize:none;
+	padding:0;
+	left:0;
+	top:-64px;
+	width:100%;
+	height:32px;
+	ime-mode:disabled;
+}
+
+/* vim:set ts=4 sw=4 fenc=UTF-8 ff=unix ft=css fdm=marker : */

@@ -1,0 +1,10 @@
+CACHE MANIFEST
+# last-modified: 2016-01-20 00:03:00
+
+CACHE:
+favicon.ico
+index.html
+authorized.html
+
+NETWORK:
+*

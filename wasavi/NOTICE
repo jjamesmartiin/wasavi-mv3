@@ -1,0 +1,32 @@
+wasavi
+======
+
+copyright 2012-2017 akahuku, akahuku@gmail.com
+
+
+
+This product includes the following libraries:
+
+* kosian - Library for abstracting browser extension
+
+  <https://github.com/akahuku/kosian>
+
+* blowfish - Javascript Blowfish Library
+
+  <https://github.com/takezoh/blowfish.js>
+
+* sha1.js
+
+  <http://labs.cybozu.co.jp/blog/mitsunari/sha1/>
+
+* free sound effects
+
+  <http://soundeffect-lab.info>
+
+* ES6-Promise
+
+  <https://github.com/jakearchibald/es6-promise>
+
+* marked
+
+  <https://github.com/chjj/marked>

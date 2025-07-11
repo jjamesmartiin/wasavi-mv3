@@ -1,0 +1,336 @@
+<!doctype html>
+<!--
+	options page of wasavi for google chrome/opera/firefox extension
+
+	@author akahuku@gmail.com
+ -->
+<!--
+	Copyright 2012-2017 akahuku, akahuku@gmail.com
+	
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+	
+	    http://www.apache.org/licenses/LICENSE-2.0
+	
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+ -->
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="SHORTCUT ICON" href="images/icon016.png">
+		<title>__MSG_option_title__</title>
+		<style>
+			.hidden {
+				display:none;
+			}
+			.overlay {
+				position:fixed;
+				left:0;
+				top:0;
+				right:0;
+				bottom:0;
+				background-color:rgba(255,255,255,0);
+				transition:background-color 0.5s linear;
+			}
+			.covered {
+				background-color:rgba(255,255,255,1);
+			}
+			.monospace, div.tips i, div.tips code {
+				font-family:"Consolas",
+							"Monaco",
+							"Courier New",
+							"Courier",
+							monospace;
+			}
+			body {
+				background-color:#fbfbfb;
+				color:#333;
+				font-family:"trebuchet ms",
+							"lucida grande",
+							"lucida sans unicode",
+							"arial",
+							"helvetica",
+							sans-serif;
+				font-size:medium;
+			}
+			a {
+				color:#55f;
+				border-bottom:1px dotted #55f;
+				text-decoration:none;
+			}
+			a:hover {
+				color:#d00;
+				border-bottom:1px dotted #d00;
+				text-decoration:none;
+			}
+			ul {
+				margin:1em 0 0 0;
+			}
+			li {
+				margin-top:0;
+				margin-bottom:0;
+				line-height:1.5;
+			}
+			h1 {
+				margin:0 0 32px 0;
+				padding:0 0 12px 0;
+				font-size:xx-large;
+				font-weight:bold;
+				border-bottom:1px solid silver;
+				display:flex;
+			}
+			h1 img {
+				vertical-align:middle;
+				margin:0 8px 0 0;
+			}
+			h1 div.title {
+				flex-grow:1;
+			}
+			h1 div.credit {
+				font-size:small;
+				font-weight:normal;
+			}
+			h2 {
+				margin:-16px -16px 16px -16px;
+				padding:10px 16px 10px 16px;
+				font-size:x-large;
+				font-weight:bold;
+				line-height:1;
+				background-color:#f0f0f0;
+				color:#333;
+				border-radius:2px 2px 0 0;
+				border-bottom:1px solid #e0e0e0;
+			}
+			h3 {
+				margin:0 0 8px 0;
+				line-height:1;
+				font-size:medium;
+				font-weight:bold;
+			}
+			div.opt-unit {
+				margin:0 auto 32px auto;
+				padding:16px;
+				max-width:640px;
+				background-color:#fff;
+				border-radius:2px;
+				box-shadow:0px 1px 3px 0px rgba(0,0,0,0.75);
+			}
+			div.opt-unit-inner {
+				margin:0.5em 0 0 2em;
+			}
+			div.opt-unit > div:not(:first-child) {
+				margin-top:1em;
+			}
+			div.opt-unit label {
+				display:block;
+				margin:0 0 4px 0;
+			}
+			div.opt-unit2 {
+				background-color:#eee;
+				position:fixed;
+				left:-8px;
+				right:-8px;
+				bottom:-8px;
+				padding:12px 0 20px 0;
+				box-shadow: 0 0 2px 2px rgba(128,128,128,0.5) inset;
+			}
+			div.opt-unit2 > div {
+				margin:auto;
+				width:640px;
+			}
+			div.bottom {
+				height:100px;
+			}
+			div.tips {
+				margin:0 0 1em 0;
+				font-size:80%;
+				color:#888;
+			}
+			div.tips i {
+				color:#333;
+			}
+			div.tips code {
+				color:#333;
+				background-color:#ddd;
+				padding:1px 4px 1px 4px;
+				border-radius:3px;
+			}
+			hr {
+				margin:2em 100px 2em 100px;
+				height:0;
+				border:none;
+				border-top:1px solid #e0e0e0;
+			}
+			textarea, input[type="text"] {
+				background-color:#f0f0f0;
+				color:#000;
+				border:1px solid #a0a0a0;
+			}
+			textarea#exrc {
+				box-sizing:border-box;
+				width:100%;
+				height:320px;
+			}
+			textarea#site-overrides {
+				box-sizing:border-box;
+				width:100%;
+				height:160px;
+			}
+			input#shortcut, input#font-family {
+				box-sizing:border-box;
+				width:100%;
+			}
+			button#save {
+				font-size:large;
+				font-weight:bold;
+				padding-left:4em;
+				padding-right:4em;
+			}
+			button#capture {
+				font-size:medium;
+			}
+			button#capture .normal {
+				display:inline;
+			}
+			button#capture .wait {
+				display:none;
+			}
+			button#capture.wait .normal {
+				display:none;
+			}
+			button#capture.wait .wait {
+				display:inline;
+			}
+			span#save-result {
+				visibility:hidden;
+				color:#dd0000;
+			}
+			input[type="radio"][disabled] + span {
+				color:#999;
+			}
+		</style>
+		<script src="scripts/options-core.js"></script>
+		<script src="frontend/extension_wrapper.js"></script>
+		<script src="frontend/agent.js"></script>
+	</head>
+	<body>
+		<h1>
+			<div class="title">
+				<img src="images/icon048.png">__MSG_option_title__
+			</div>
+			<div class="credit">
+				<a href="http://appsweets.net/wasavi/"><img src="images/appsweets.png">appsweets.net</a>
+				| <a href="https://pledgie.com/campaigns/26501">Make a donation</a>
+				| <a href="LICENSE">__MSG_option_license__</a>
+				| <a href="NOTICE">__MSG_option_notice__</a>
+			</div>
+		</h1>
+
+		<div class="opt-unit">
+			<h2>__MSG_option_exrc_head__</h2>
+			<div>
+				<textarea id="exrc" class="monospace"></textarea>
+				<div class="tips">__MSG_option_exrc_desc__</div>
+			</div>
+		</div>
+
+		<div class="opt-unit" id="targets-container">
+			<h2>__MSG_option_target_elements_head__</h2>
+			<div>
+				<label><input type="checkbox" id="enableTextArea"       >textarea</label>
+				<label><input type="checkbox" id="enableText"           >input [type=text]</label>
+				<label><input type="checkbox" id="enableSearch"         >input [type=search]</label>
+				<label><input type="checkbox" id="enableTel"            >input [type=tel]</label>
+				<label><input type="checkbox" id="enableUrl"            >input [type=url]</label>
+				<label><input type="checkbox" id="enableEmail"          >input [type=email]</label>
+				<label><input type="checkbox" id="enablePassword"       >input [type=password]</label>
+				<label><input type="checkbox" id="enableNumber"         >input [type=number]</label>
+				<label><input type="checkbox" id="enableContentEditable">[contentEditable]</label>
+				<label><input type="checkbox" id="enablePage"           >body</label>
+			</div>
+		</div>
+
+		<div class="opt-unit">
+			<h2>__MSG_option_starting_type_head__</h2>
+			<div>
+				<label><input type="radio" name="quick-activation" value="1">__MSG_option_quick_activation_on__</label>
+
+				<label><input type="radio" name="quick-activation" value="0">__MSG_option_quick_activation_off__</label>
+				<div class="opt-unit-inner">
+					<label><input type="text" id="shortcut" class="monospace"></label>
+					<button id="capture"
+						><span id="capture-normal" class="normal">__MSG_option_capture_normal__</span
+						><span id="capture-wait" class="wait"></span
+						><span id="capture-wait-buffer" class="hidden">__MSG_option_capture_wait__</span
+					></button>
+					<div class="tips">__MSG_option_target_elements_desc__</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="opt-unit">
+			<h2>__MSG_option_site_overrides_head__</h2>
+			<div>
+				<textarea id="site-overrides" class="monospace"></textarea>
+				<div class="tips">__MSG_option_site_overrides_tips__</div>
+			</div>
+		</div>
+
+		<div class="opt-unit">
+			<h2>__MSG_option_font_family_head__</h2>
+			<div>
+				<label><input type="text" id="font-family" class="monospace"></label>
+			</div>
+		</div>
+
+		<div class="opt-unit" id="fstab-container">
+			<h2>__MSG_option_preferred_storage_head__</h2>
+			<div>
+				<label><input type="radio" name="fstab" id="fstab-dropbox" checked="checked" value="dropbox">Dropbox</label>
+				<label><input type="radio" name="fstab" id="fstab-gdrive" value="gdrive">Google Drive</label>
+				<label><input type="radio" name="fstab" id="fstab-onedrive" value="onedrive">Microsoft OneDrive</label>
+				<label><input type="radio" name="fstab" id="fstab-file" value="file">Local filesystem</label>
+			</div>
+		</div>
+
+		<div class="opt-unit">
+			<h2>__MSG_option_upgrade_head__</h2>
+			<div>
+				<label><input type="checkbox" id="upgrade-notify">__MSG_option_upgrade_notify__</label>
+			</div>
+		</div>
+
+		<div class="opt-unit">
+			<h2>__MSG_option_init_head__</h2>
+			<div>
+				<button id="opt-init">__MSG_option_init_desc__</button>
+				<span id="opt-init-confirm" class="hidden">__MSG_option_init_confirm__</span>
+			</div>
+		</div>
+
+		<div class="opt-unit">
+			<h2>__MSG_option_debug_head__</h2>
+			<div>
+				<label><input type="checkbox" id="log-mode">__MSG_option_log_desc__</label>
+			</div>
+		</div>
+
+		<div class="bottom">
+		</div>
+
+		<div class="opt-unit2">
+			<div>
+				<button id="save">__MSG_option_save__</button>
+				<span id="save-result">__MSG_option_saved__</span>
+			</div>
+		</div>
+
+		<div id="overlay" class="overlay covered"></div>
+	</body>
+</html>
+<!-- vim:set ts=4 sw=4 fileencoding=UTF-8 fileformat=unix filetype=html : -->

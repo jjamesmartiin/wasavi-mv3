@@ -1,0 +1,82 @@
+{
+  "manifest_version": 2,
+  "name": "__MSG_wasavi_name__",
+  "short_name": "__MSG_wasavi_name__",
+  "version": "0.0.1",
+  "description": "__MSG_wasavi_desc__",
+  "default_locale": "en_US",
+  "applications": {
+    "gecko": {
+      "id": "jid1-bmMwuNrx3u5hqQ@jetpack",
+      "strict_min_version": "42.0",
+      "update_url": "https://github.com/akahuku/wasavi/raw/master/dist/firefox.json"
+    }
+  },
+  "icons": {
+     "16": "images/icon016.png",
+     "48": "images/icon048.png",
+    "128": "images/icon128.png"
+  },
+  "permissions": [
+    "tabs", "clipboardRead", "clipboardWrite", "contextMenus",
+    "identity", "storage",
+    "https://*.dropboxapi.com/*",
+    "https://*.google.com/*", "https://*.googleapis.com/*", "https://*.googleusercontent.com/*",
+    "https://apis.live.net/*"
+  ],
+  "background": {
+    "page": "backend/main.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "exclude_matches": [
+        "http://wasavi.appsweets.net/*",
+        "https://wasavi.appsweets.net/*"
+      ],
+      "js": [
+        "frontend/extension_wrapper.js",
+        "frontend/agent.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": true,
+      "match_about_blank": true
+    },
+    {
+      "matches": [
+        "http://wasavi.appsweets.net/*",
+        "https://wasavi.appsweets.net/*"
+      ],
+      "js": [
+        "frontend/extension_wrapper.js",
+        "frontend/init.js",
+        "frontend/utils.js",
+        "frontend/unistring.js",
+        "frontend/unicode_utils.js",
+        "frontend/qeema.js",
+        "frontend/classes.js",
+        "frontend/classes_ex.js",
+        "frontend/classes_undo.js",
+        "frontend/classes_subst.js",
+        "frontend/classes_search.js",
+        "frontend/classes_ui.js",
+        "frontend/wasavi.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
+  "web_accessible_resources": [
+    "wasavi.html",
+    "scripts/page_context.js"
+  ],
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "homepage_url": "http://appsweets.net/",
+  "update_url":"https://github.com/akahuku/wasavi/raw/master/dist/chrome.xml"
+}
